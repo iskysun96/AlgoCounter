@@ -1,7 +1,8 @@
-from app import app, hello
-from beaker import sandbox, client
+from beaker import client, sandbox
 
-app.build().export("./artifacts")
+from app import app
+
+app.build().export("./src/artifacts")
 
 accounts = sandbox.kmd.get_accounts()
 sender = accounts[0]
@@ -13,7 +14,5 @@ app_client = client.ApplicationClient(
     signer=sender.signer,
 )
 
-app_client.create()
-
-return_value = app_client.call(hello, name="Beaker").return_value
-print(return_value)
+app_id = app_client.create()
+print(app_id)
